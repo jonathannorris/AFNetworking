@@ -20,10 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "AFURLResponseSerialization.h"
+#import "LP_AFURLResponseSerialization.h"
 
-extern NSString * const AFNetworkingErrorDomain;
-extern NSString * const AFNetworkingOperationFailingURLResponseErrorKey;
+extern NSString * const LP_AFNetworkingErrorDomain;
+extern NSString * const LP_AFNetworkingOperationFailingURLResponseErrorKey;
 
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
 #import <UIKit/UIKit.h>
@@ -31,7 +31,7 @@ extern NSString * const AFNetworkingOperationFailingURLResponseErrorKey;
 #import <Cocoa/Cocoa.h>
 #endif
 
-@implementation AFHTTPResponseSerializer
+@implementation LP_AFHTTPResponseSerializer
 
 + (instancetype)serializer {
     return [[self alloc] init];
@@ -62,10 +62,10 @@ extern NSString * const AFNetworkingOperationFailingURLResponseErrorKey;
             NSDictionary *userInfo = @{
                                        NSLocalizedDescriptionKey: [NSString stringWithFormat:NSLocalizedStringFromTable(@"Request failed: %@ (%d)", @"AFNetworking", nil), [NSHTTPURLResponse localizedStringForStatusCode:response.statusCode], response.statusCode],
                                        NSURLErrorFailingURLErrorKey:[response URL],
-                                       AFNetworkingOperationFailingURLResponseErrorKey: response
+                                       LP_AFNetworkingOperationFailingURLResponseErrorKey: response
                                        };
             if (error) {
-                *error = [[NSError alloc] initWithDomain:AFNetworkingErrorDomain code:NSURLErrorBadServerResponse userInfo:userInfo];
+                *error = [[NSError alloc] initWithDomain:LP_AFNetworkingErrorDomain code:NSURLErrorBadServerResponse userInfo:userInfo];
             }
 
             return NO;
@@ -75,10 +75,10 @@ extern NSString * const AFNetworkingOperationFailingURLResponseErrorKey;
                 NSDictionary *userInfo = @{
                                            NSLocalizedDescriptionKey: [NSString stringWithFormat:NSLocalizedStringFromTable(@"Request failed: unacceptable content-type: %@", @"AFNetworking", nil), [response MIMEType]],
                                            NSURLErrorFailingURLErrorKey:[response URL],
-                                           AFNetworkingOperationFailingURLResponseErrorKey: response
+                                           LP_AFNetworkingOperationFailingURLResponseErrorKey: response
                                            };
                 if (error) {
-                    *error = [[NSError alloc] initWithDomain:AFNetworkingErrorDomain code:NSURLErrorCannotDecodeContentData userInfo:userInfo];
+                    *error = [[NSError alloc] initWithDomain:LP_AFNetworkingErrorDomain code:NSURLErrorCannotDecodeContentData userInfo:userInfo];
                 }
 
                 return NO;
@@ -122,7 +122,7 @@ extern NSString * const AFNetworkingOperationFailingURLResponseErrorKey;
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone {
-    AFHTTPResponseSerializer *serializer = [[[self class] allocWithZone:zone] init];
+    LP_AFHTTPResponseSerializer *serializer = [[[self class] allocWithZone:zone] init];
     serializer.acceptableStatusCodes = [self.acceptableStatusCodes copyWithZone:zone];
     serializer.acceptableContentTypes = [self.acceptableContentTypes copyWithZone:zone];
 
@@ -133,14 +133,14 @@ extern NSString * const AFNetworkingOperationFailingURLResponseErrorKey;
 
 #pragma mark -
 
-@implementation AFJSONResponseSerializer
+@implementation LP_AFJSONResponseSerializer
 
 + (instancetype)serializer {
     return [self serializerWithReadingOptions:0];
 }
 
 + (instancetype)serializerWithReadingOptions:(NSJSONReadingOptions)readingOptions {
-    AFJSONResponseSerializer *serializer = [[self alloc] init];
+    LP_AFJSONResponseSerializer *serializer = [[self alloc] init];
     serializer.readingOptions = readingOptions;
 
     return serializer;
@@ -196,7 +196,7 @@ extern NSString * const AFNetworkingOperationFailingURLResponseErrorKey;
             [userInfo setValue:NSLocalizedStringFromTable(@"Data failed decoding as a UTF-8 string", nil, @"AFNetworking") forKey:NSLocalizedDescriptionKey];
             [userInfo setValue:[NSString stringWithFormat:NSLocalizedStringFromTable(@"Could not decode string: %@", nil, @"AFNetworking"), responseString] forKey:NSLocalizedFailureReasonErrorKey];
             if (error) {
-                *error = [[NSError alloc] initWithDomain:AFNetworkingErrorDomain code:NSURLErrorCannotDecodeContentData userInfo:userInfo];
+                *error = [[NSError alloc] initWithDomain:LP_AFNetworkingErrorDomain code:NSURLErrorCannotDecodeContentData userInfo:userInfo];
             }
         }
     }
@@ -226,7 +226,7 @@ extern NSString * const AFNetworkingOperationFailingURLResponseErrorKey;
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone {
-    AFJSONResponseSerializer *serializer = [[[self class] allocWithZone:zone] init];
+    LP_AFJSONResponseSerializer *serializer = [[[self class] allocWithZone:zone] init];
     serializer.readingOptions = self.readingOptions;
 
     return serializer;
@@ -236,10 +236,10 @@ extern NSString * const AFNetworkingOperationFailingURLResponseErrorKey;
 
 #pragma mark -
 
-@implementation AFXMLParserResponseSerializer
+@implementation LP_AFXMLParserResponseSerializer
 
 + (instancetype)serializer {
-    AFXMLParserResponseSerializer *serializer = [[self alloc] init];
+    LP_AFXMLParserResponseSerializer *serializer = [[self alloc] init];
 
     return serializer;
 }
@@ -276,14 +276,14 @@ extern NSString * const AFNetworkingOperationFailingURLResponseErrorKey;
 
 #ifdef __MAC_OS_X_VERSION_MIN_REQUIRED
 
-@implementation AFXMLDocumentResponseSerializer
+@implementation LP_AFXMLDocumentResponseSerializer
 
 + (instancetype)serializer {
     return [self serializerWithXMLDocumentOptions:0];
 }
 
 + (instancetype)serializerWithXMLDocumentOptions:(NSUInteger)mask {
-    AFXMLDocumentResponseSerializer *serializer = [[self alloc] init];
+    LP_AFXMLDocumentResponseSerializer *serializer = [[self alloc] init];
     serializer.options = mask;
 
     return serializer;
@@ -337,7 +337,7 @@ extern NSString * const AFNetworkingOperationFailingURLResponseErrorKey;
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone {
-    AFXMLDocumentResponseSerializer *serializer = [[[self class] allocWithZone:zone] init];
+    LP_AFXMLDocumentResponseSerializer *serializer = [[[self class] allocWithZone:zone] init];
     serializer.options = self.options;
 
     return serializer;
@@ -349,7 +349,7 @@ extern NSString * const AFNetworkingOperationFailingURLResponseErrorKey;
 
 #pragma mark -
 
-@implementation AFPropertyListResponseSerializer
+@implementation LP_AFPropertyListResponseSerializer
 
 + (instancetype)serializer {
     return [self serializerWithFormat:NSPropertyListXMLFormat_v1_0 readOptions:0];
@@ -358,7 +358,7 @@ extern NSString * const AFNetworkingOperationFailingURLResponseErrorKey;
 + (instancetype)serializerWithFormat:(NSPropertyListFormat)format
                          readOptions:(NSPropertyListReadOptions)readOptions
 {
-    AFPropertyListResponseSerializer *serializer = [[self alloc] init];
+    LP_AFPropertyListResponseSerializer *serializer = [[self alloc] init];
     serializer.format = format;
     serializer.readOptions = readOptions;
 
@@ -425,7 +425,7 @@ extern NSString * const AFNetworkingOperationFailingURLResponseErrorKey;
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone {
-    AFPropertyListResponseSerializer *serializer = [[[self class] allocWithZone:zone] init];
+    LP_AFPropertyListResponseSerializer *serializer = [[[self class] allocWithZone:zone] init];
     serializer.format = self.format;
     serializer.readOptions = self.readOptions;
 
@@ -525,7 +525,7 @@ static UIImage * AFInflatedImageFromResponseWithDataAtScale(NSHTTPURLResponse *r
 #endif
 
 
-@implementation AFImageResponseSerializer
+@implementation LP_AFImageResponseSerializer
 
 - (instancetype)init {
     self = [super init];
@@ -611,7 +611,7 @@ static UIImage * AFInflatedImageFromResponseWithDataAtScale(NSHTTPURLResponse *r
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone {
-    AFImageResponseSerializer *serializer = [[[self class] allocWithZone:zone] init];
+    LP_AFImageResponseSerializer *serializer = [[[self class] allocWithZone:zone] init];
 
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
     serializer.imageScale = self.imageScale;
@@ -625,14 +625,14 @@ static UIImage * AFInflatedImageFromResponseWithDataAtScale(NSHTTPURLResponse *r
 
 #pragma mark -
 
-@interface AFCompoundResponseSerializer ()
+@interface LP_AFCompoundResponseSerializer ()
 @property (readwrite, nonatomic, strong) NSArray *responseSerializers;
 @end
 
-@implementation AFCompoundResponseSerializer
+@implementation LP_AFCompoundResponseSerializer
 
 + (instancetype)compoundSerializerWithResponseSerializers:(NSArray *)responseSerializers {
-    AFCompoundResponseSerializer *serializer = [[self alloc] init];
+    LP_AFCompoundResponseSerializer *serializer = [[self alloc] init];
     serializer.responseSerializers = responseSerializers;
 
     return serializer;
@@ -644,8 +644,8 @@ static UIImage * AFInflatedImageFromResponseWithDataAtScale(NSHTTPURLResponse *r
                            data:(NSData *)data
                           error:(NSError *__autoreleasing *)error
 {
-    for (id <AFURLResponseSerialization> serializer in self.responseSerializers) {
-        if (![serializer isKindOfClass:[AFHTTPResponseSerializer class]]) {
+    for (id <LP_AFURLResponseSerialization> serializer in self.responseSerializers) {
+        if (![serializer isKindOfClass:[LP_AFHTTPResponseSerializer class]]) {
             continue;
         }
 
@@ -682,7 +682,7 @@ static UIImage * AFInflatedImageFromResponseWithDataAtScale(NSHTTPURLResponse *r
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone {
-    AFCompoundResponseSerializer *serializer = [[[self class] allocWithZone:zone] init];
+    LP_AFCompoundResponseSerializer *serializer = [[[self class] allocWithZone:zone] init];
     serializer.responseSerializers = self.responseSerializers;
 
     return serializer;

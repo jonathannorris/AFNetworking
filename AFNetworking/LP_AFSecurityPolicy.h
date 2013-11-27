@@ -23,10 +23,10 @@
 #import <Foundation/Foundation.h>
 #import <Security/Security.h>
 
-typedef NS_ENUM(NSUInteger, AFSSLPinningMode) {
-    AFSSLPinningModeNone,
-    AFSSLPinningModePublicKey,
-    AFSSLPinningModeCertificate,
+typedef NS_ENUM(NSUInteger, LP_AFSSLPinningMode) {
+    LP_AFSSLPinningModeNone,
+    LP_AFSSLPinningModePublicKey,
+    LP_AFSSLPinningModeCertificate,
 };
 
 /**
@@ -34,12 +34,12 @@ typedef NS_ENUM(NSUInteger, AFSSLPinningMode) {
  
  Adding pinned SSL certificates to your app helps prevent man-in-the-middle attacks and other vulnerabilities. Applications dealing with sensitive customer data or financial information are strongly encouraged to route all communication over an HTTPS connection with SSL pinning configured and enabled.
  */
-@interface AFSecurityPolicy : NSObject
+@interface LP_AFSecurityPolicy : NSObject
 
 /**
- The criteria by which server trust should be evaluated against the pinned SSL certificates. Defaults to `AFSSLPinningModeNone`.
+ The criteria by which server trust should be evaluated against the pinned SSL certificates. Defaults to `LP_AFSSLPinningModeNone`.
  */
-@property (nonatomic, assign) AFSSLPinningMode SSLPinningMode;
+@property (nonatomic, assign) LP_AFSSLPinningMode SSLPinningMode;
 
 /**
  The certificates used to evaluate server trust according to the SSL pinning mode. By default, this property is set to any (`.cer`) certificates included in the app bundle.
@@ -73,7 +73,7 @@ typedef NS_ENUM(NSUInteger, AFSSLPinningMode) {
  
  @return A new security policy.
  */
-+ (instancetype)policyWithPinningMode:(AFSSLPinningMode)pinningMode;
++ (instancetype)policyWithPinningMode:(LP_AFSSLPinningMode)pinningMode;
 
 ///------------------------------
 /// @name Evaluating Server Trust
@@ -102,17 +102,17 @@ typedef NS_ENUM(NSUInteger, AFSSLPinningMode) {
  The following constants are provided by `AFSSLPinningMode` as possible SSL pinning modes.
 
  enum {
- AFSSLPinningModeNone,
- AFSSLPinningModePublicKey,
- AFSSLPinningModeCertificate,
+ LP_AFSSLPinningModeNone,
+ LP_AFSSLPinningModePublicKey,
+ LP_AFSSLPinningModeCertificate,
  }
 
- `AFSSLPinningModeNone`
+ `LP_AFSSLPinningModeNone`
  Do not validate servers against pinned certificates.
 
- `AFSSLPinningModePublicKey`
+ `LP_AFSSLPinningModePublicKey`
  Validate host certificates against public keys of pinned certificates.
 
- `AFSSLPinningModeCertificate`
+ `LP_AFSSLPinningModeCertificate`
  Validate host certificates against pinned certificates.
 */

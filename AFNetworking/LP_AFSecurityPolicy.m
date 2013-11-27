@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "AFSecurityPolicy.h"
+#import "LP_AFSecurityPolicy.h"
 
 #if !defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
 static NSData * AFSecKeyGetData(SecKeyRef key) {
@@ -139,11 +139,11 @@ static NSArray * AFPublicKeyTrustChainForServerTrust(SecTrustRef serverTrust) {
 
 #pragma mark -
 
-@interface AFSecurityPolicy()
+@interface LP_AFSecurityPolicy()
 @property (readwrite, nonatomic, strong) NSArray *pinnedPublicKeys;
 @end
 
-@implementation AFSecurityPolicy
+@implementation LP_AFSecurityPolicy
 
 + (NSArray *)defaultPinnedCertificates {
     static NSArray *_defaultPinnedCertificates = nil;
@@ -165,14 +165,14 @@ static NSArray * AFPublicKeyTrustChainForServerTrust(SecTrustRef serverTrust) {
 }
 
 + (instancetype)defaultPolicy {
-    AFSecurityPolicy *securityPolicy = [[self alloc] init];
-    securityPolicy.SSLPinningMode = AFSSLPinningModeNone;
+    LP_AFSecurityPolicy *securityPolicy = [[self alloc] init];
+    securityPolicy.SSLPinningMode = LP_AFSSLPinningModeNone;
 
     return securityPolicy;
 }
 
-+ (instancetype)policyWithPinningMode:(AFSSLPinningMode)pinningMode {
-    AFSecurityPolicy *securityPolicy = [[self alloc] init];
++ (instancetype)policyWithPinningMode:(LP_AFSSLPinningMode)pinningMode {
+    LP_AFSecurityPolicy *securityPolicy = [[self alloc] init];
     securityPolicy.SSLPinningMode = pinningMode;
     [securityPolicy setPinnedCertificates:[self defaultPinnedCertificates]];
 
@@ -199,9 +199,9 @@ static NSArray * AFPublicKeyTrustChainForServerTrust(SecTrustRef serverTrust) {
 
 - (BOOL)evaluateServerTrust:(SecTrustRef)serverTrust {
     switch (self.SSLPinningMode) {
-        case AFSSLPinningModeNone:
+        case LP_AFSSLPinningModeNone:
             return (self.allowInvalidCertificates || AFServerTrustIsValid(serverTrust));
-        case AFSSLPinningModeCertificate: {
+        case LP_AFSSLPinningModeCertificate: {
             for (NSData *trustChainCertificate in AFCertificateTrustChainForServerTrust(serverTrust)) {
                 if ([self.pinnedCertificates containsObject:trustChainCertificate]) {
                     return YES;
@@ -209,7 +209,7 @@ static NSArray * AFPublicKeyTrustChainForServerTrust(SecTrustRef serverTrust) {
             }
         }
             break;
-        case AFSSLPinningModePublicKey: {
+        case LP_AFSSLPinningModePublicKey: {
             for (id trustChainPublicKey in AFPublicKeyTrustChainForServerTrust(serverTrust)) {
                 for (id pinnedPublicKey in self.pinnedPublicKeys) {
                     if (AFSecKeyIsEqualToKey((__bridge SecKeyRef)trustChainPublicKey, (__bridge SecKeyRef)pinnedPublicKey)) {

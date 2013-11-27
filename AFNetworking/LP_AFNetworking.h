@@ -26,19 +26,19 @@
 #ifndef _AFNETWORKING_
     #define _AFNETWORKING_
 
-    #import "AFURLRequestSerialization.h"
-    #import "AFURLResponseSerialization.h"
-    #import "AFSecurityPolicy.h"
-    #import "AFNetworkReachabilityManager.h"
+    #import "LP_AFURLRequestSerialization.h"
+    #import "LP_AFURLResponseSerialization.h"
+    #import "LP_AFSecurityPolicy.h"
+    #import "LP_AFNetworkReachabilityManager.h"
 
-    #import "AFURLConnectionOperation.h"
-    #import "AFHTTPRequestOperation.h"
-    #import "AFHTTPRequestOperationManager.h"
+    #import "LP_AFURLConnectionOperation.h"
+    #import "LP_AFHTTPRequestOperation.h"
+    #import "LP_AFHTTPRequestOperationManager.h"
 
 #if ( ( defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 1090) || \
       ( defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000 ) )
-    #import "AFURLSessionManager.h"
-    #import "AFHTTPSessionManager.h"
+    #import "LP_AFURLSessionManager.h"
+    #import "LP_AFHTTPSessionManager.h"
 #endif
 
 #endif /* _AFNETWORKING_ */

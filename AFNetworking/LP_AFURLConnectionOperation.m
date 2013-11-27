@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "AFURLConnectionOperation.h"
+#import "LP_AFURLConnectionOperation.h"
 
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
 #import <UIKit/UIKit.h>
@@ -56,12 +56,12 @@ static dispatch_group_t url_request_operation_completion_group() {
 
 static NSString * const kAFNetworkingLockName = @"com.alamofire.networking.operation.lock";
 
-NSString * const AFNetworkingErrorDomain = @"AFNetworkingErrorDomain";
-NSString * const AFNetworkingOperationFailingURLRequestErrorKey = @"AFNetworkingOperationFailingURLRequestErrorKey";
-NSString * const AFNetworkingOperationFailingURLResponseErrorKey = @"AFNetworkingOperationFailingURLResponseErrorKey";
+NSString * const LP_AFNetworkingErrorDomain = @"AFNetworkingErrorDomain";
+NSString * const LP_AFNetworkingOperationFailingURLRequestErrorKey = @"AFNetworkingOperationFailingURLRequestErrorKey";
+NSString * const LP_AFNetworkingOperationFailingURLResponseErrorKey = @"AFNetworkingOperationFailingURLResponseErrorKey";
 
-NSString * const AFNetworkingOperationDidStartNotification = @"com.alamofire.networking.operation.start";
-NSString * const AFNetworkingOperationDidFinishNotification = @"com.alamofire.networking.operation.finish";
+NSString * const LP_AFNetworkingOperationDidStartNotification = @"com.alamofire.networking.operation.start";
+NSString * const LP_AFNetworkingOperationDidFinishNotification = @"com.alamofire.networking.operation.finish";
 
 typedef void (^AFURLConnectionOperationProgressBlock)(NSUInteger bytes, long long totalBytes, long long totalBytesExpected);
 typedef void (^AFURLConnectionOperationAuthenticationChallengeBlock)(NSURLConnection *connection, NSURLAuthenticationChallenge *challenge);
@@ -112,7 +112,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
     }
 }
 
-@interface AFURLConnectionOperation ()
+@interface LP_AFURLConnectionOperation ()
 @property (readwrite, nonatomic, assign) AFOperationState state;
 @property (readwrite, nonatomic, assign, getter = isCancelled) BOOL cancelled;
 @property (readwrite, nonatomic, strong) NSRecursiveLock *lock;
@@ -136,7 +136,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
 - (void)cancelConnection;
 @end
 
-@implementation AFURLConnectionOperation
+@implementation LP_AFURLConnectionOperation
 @synthesize outputStream = _outputStream;
 
 + (void)networkRequestThreadEntryPoint:(id)__unused object {
@@ -179,7 +179,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
 
     self.state = AFOperationReadyState;
 
-    self.securityPolicy = [AFSecurityPolicy defaultPolicy];
+    self.securityPolicy = [LP_AFSecurityPolicy defaultPolicy];
 
     return self;
 }
@@ -360,7 +360,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
         
         dispatch_async(dispatch_get_main_queue(), ^{
             NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-            [notificationCenter postNotificationName:AFNetworkingOperationDidFinishNotification object:self];
+            [notificationCenter postNotificationName:LP_AFNetworkingOperationDidFinishNotification object:self];
         });
     }
     
@@ -435,7 +435,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
     [self.lock unlock];
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:AFNetworkingOperationDidStartNotification object:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:LP_AFNetworkingOperationDidStartNotification object:self];
     });
 }
 
@@ -443,7 +443,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
     self.state = AFOperationFinishedState;
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:AFNetworkingOperationDidFinishNotification object:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:LP_AFNetworkingOperationDidFinishNotification object:self];
     });
 }
 
@@ -503,7 +503,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
         });
     }];
 
-    for (AFURLConnectionOperation *operation in operations) {
+    for (LP_AFURLConnectionOperation *operation in operations) {
         operation.completionGroup = group;
         void (^originalCompletionBlock)(void) = [operation.completionBlock copy];
         __weak __typeof(operation)weakOperation = operation;
@@ -721,7 +721,7 @@ didReceiveResponse:(NSURLResponse *)response
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone {
-    AFURLConnectionOperation *operation = [(AFURLConnectionOperation *)[[self class] allocWithZone:zone] initWithRequest:self.request];
+    LP_AFURLConnectionOperation *operation = [(LP_AFURLConnectionOperation *)[[self class] allocWithZone:zone] initWithRequest:self.request];
     
     operation.uploadProgress = self.uploadProgress;
     operation.downloadProgress = self.downloadProgress;

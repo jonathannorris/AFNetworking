@@ -20,11 +20,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "LP_AFHTTPSessionManager.h"
+#import "TL_AFHTTPSessionManager.h"
 
 #if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000) || (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 1090)
 
-#import "LP_AFHTTPRequestOperation.h"
+#import "TL_AFHTTPRequestOperation.h"
 
 #import <Availability.h>
 #import <Security/Security.h>
@@ -41,12 +41,12 @@
 #import <UIKit/UIKit.h>
 #endif
 
-@interface LP_AFHTTPSessionManager ()
+@interface TL_AFHTTPSessionManager ()
 @property (readwrite, nonatomic, strong) NSURL *baseURL;
-@property (readwrite, nonatomic, strong) LP_AFNetworkReachabilityManager *reachabilityManager;
+@property (readwrite, nonatomic, strong) TL_AFNetworkReachabilityManager *reachabilityManager;
 @end
 
-@implementation LP_AFHTTPSessionManager
+@implementation TL_AFHTTPSessionManager
 
 + (instancetype)manager {
     return [[[self class] alloc] initWithBaseURL:nil];
@@ -79,13 +79,13 @@
 
     self.baseURL = url;
 
-    self.requestSerializer = [LP_AFHTTPRequestSerializer serializer];
-    self.responseSerializer = [LP_AFJSONResponseSerializer serializer];
+    self.requestSerializer = [TL_AFHTTPRequestSerializer serializer];
+    self.responseSerializer = [TL_AFJSONResponseSerializer serializer];
 
     if (self.baseURL.host) {
-        self.reachabilityManager = [LP_AFNetworkReachabilityManager managerForDomain:self.baseURL.host];
+        self.reachabilityManager = [TL_AFNetworkReachabilityManager managerForDomain:self.baseURL.host];
     } else {
-        self.reachabilityManager = [LP_AFNetworkReachabilityManager sharedManager];
+        self.reachabilityManager = [TL_AFNetworkReachabilityManager sharedManager];
     }
 
     return self;
@@ -100,13 +100,13 @@
 #ifdef _SYSTEMCONFIGURATION_H
 #endif
 
-- (void)setRequestSerializer:(LP_AFHTTPRequestSerializer <LP_AFURLRequestSerialization> *)requestSerializer {
+- (void)setRequestSerializer:(TL_AFHTTPRequestSerializer <TL_AFURLRequestSerialization> *)requestSerializer {
     NSParameterAssert(requestSerializer);
 
     _requestSerializer = requestSerializer;
 }
 
-- (void)setResponseSerializer:(LP_AFHTTPResponseSerializer <LP_AFURLResponseSerialization> *)responseSerializer {
+- (void)setResponseSerializer:(TL_AFHTTPResponseSerializer <TL_AFURLResponseSerialization> *)responseSerializer {
     NSParameterAssert(responseSerializer);
 
     [super setResponseSerializer:responseSerializer];
@@ -188,7 +188,7 @@
 
 - (NSURLSessionDataTask *)POST:(NSString *)URLString
                     parameters:(NSDictionary *)parameters
-     constructingBodyWithBlock:(void (^)(id <LP_AFMultipartFormData> formData))block
+     constructingBodyWithBlock:(void (^)(id <TL_AFMultipartFormData> formData))block
                        success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
                        failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure
 {
@@ -312,7 +312,7 @@
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone {
-    LP_AFHTTPSessionManager *HTTPClient = [[[self class] allocWithZone:zone] initWithBaseURL:self.baseURL sessionConfiguration:self.session.configuration];
+    TL_AFHTTPSessionManager *HTTPClient = [[[self class] allocWithZone:zone] initWithBaseURL:self.baseURL sessionConfiguration:self.session.configuration];
 
     HTTPClient.requestSerializer = [self.requestSerializer copyWithZone:zone];
     HTTPClient.responseSerializer = [self.responseSerializer copyWithZone:zone];

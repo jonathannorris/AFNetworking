@@ -30,7 +30,7 @@
 
  For example, a JSON request serializer may set the HTTP body of the request to a JSON representation, and set the `Content-Type` HTTP header field value to `application/json`.
  */
-@protocol LP_AFURLRequestSerialization <NSObject, NSCoding, NSCopying>
+@protocol TL_AFURLRequestSerialization <NSObject, NSCoding, NSCopying>
 
 /**
  Returns a request with the specified parameters encoded into a copy of the original request.
@@ -52,18 +52,18 @@
 /**
 
  */
-typedef NS_ENUM(NSUInteger, LP_AFHTTPRequestQueryStringSerializationStyle) {
-    LP_AFHTTPRequestQueryStringDefaultStyle = 0,
+typedef NS_ENUM(NSUInteger, TL_AFHTTPRequestQueryStringSerializationStyle) {
+    TL_AFHTTPRequestQueryStringDefaultStyle = 0,
 };
 
-@protocol LP_AFMultipartFormData;
+@protocol TL_AFMultipartFormData;
 
 /**
  `AFHTTPRequestSerializer` conforms to the `AFURLRequestSerialization` & `AFURLResponseSerialization` protocols, offering a concrete base implementation of query string / URL form-encoded parameter serialization and default request headers, as well as response status code and content type validation.
 
  Any request or response serializer dealing with HTTP is encouraged to subclass `AFHTTPRequestSerializer` in order to ensure consistent default behavior.
  */
-@interface LP_AFHTTPRequestSerializer : NSObject <LP_AFURLRequestSerialization>
+@interface TL_AFHTTPRequestSerializer : NSObject <TL_AFURLRequestSerialization>
 
 /**
  The string encoding used to serialize parameters.
@@ -130,7 +130,7 @@ typedef NS_ENUM(NSUInteger, LP_AFHTTPRequestQueryStringSerializationStyle) {
 
  @see AFHTTPRequestQueryStringSerializationStyle
  */
-- (void)setQueryStringSerializationWithStyle:(LP_AFHTTPRequestQueryStringSerializationStyle)style;
+- (void)setQueryStringSerializationWithStyle:(TL_AFHTTPRequestQueryStringSerializationStyle)style;
 
 /**
  Set the a custom method of query string serialization according to the specified block.
@@ -173,19 +173,19 @@ typedef NS_ENUM(NSUInteger, LP_AFHTTPRequestQueryStringSerializationStyle) {
 - (NSMutableURLRequest *)multipartFormRequestWithMethod:(NSString *)method
                                               URLString:(NSString *)URLString
                                              parameters:(NSDictionary *)parameters
-                              constructingBodyWithBlock:(void (^)(id <LP_AFMultipartFormData> formData))block;
+                              constructingBodyWithBlock:(void (^)(id <TL_AFMultipartFormData> formData))block;
 
 @end
 
 #pragma mark -
 
-extern NSUInteger const LP_kAFUploadStream3GSuggestedPacketSize;
-extern NSTimeInterval const LP_kAFUploadStream3GSuggestedDelay;
+extern NSUInteger const TL_kAFUploadStream3GSuggestedPacketSize;
+extern NSTimeInterval const TL_kAFUploadStream3GSuggestedDelay;
 
 /**
  The `AFMultipartFormData` protocol defines the methods supported by the parameter in the block argument of `AFHTTPRequestSerializer -multipartFormRequestWithMethod:URLString:parameters:constructingBodyWithBlock:`.
  */
-@protocol LP_AFMultipartFormData
+@protocol TL_AFMultipartFormData
 
 /**
  Appends the HTTP header `Content-Disposition: file; filename=#{generated filename}; name=#{name}"` and `Content-Type: #{generated mimeType}`, followed by the encoded file data and the multipart form boundary.
@@ -298,7 +298,7 @@ extern NSTimeInterval const LP_kAFUploadStream3GSuggestedDelay;
 
 #pragma mark -
 
-@interface LP_AFJSONRequestSerializer : LP_AFHTTPRequestSerializer
+@interface TL_AFJSONRequestSerializer : TL_AFHTTPRequestSerializer
 
 /**
  The property list format. Possible values are described in "NSPropertyListFormat".
@@ -319,7 +319,7 @@ extern NSTimeInterval const LP_kAFUploadStream3GSuggestedDelay;
 
 @end
 
-@interface LP_AFPropertyListRequestSerializer : LP_AFHTTPRequestSerializer
+@interface TL_AFPropertyListRequestSerializer : TL_AFHTTPRequestSerializer
 
 /**
  The property list format. Possible values are described in "NSPropertyListFormat".

@@ -29,11 +29,11 @@
 #import <ifaddrs.h>
 #import <netdb.h>
 
-typedef NS_ENUM(NSInteger, LP_AFNetworkReachabilityStatus) {
-    LP_AFNetworkReachabilityStatusUnknown          = -1,
-    LP_AFNetworkReachabilityStatusNotReachable     = 0,
-    LP_AFNetworkReachabilityStatusReachableViaWWAN = 1,
-    LP_AFNetworkReachabilityStatusReachableViaWiFi = 2,
+typedef NS_ENUM(NSInteger, TL_AFNetworkReachabilityStatus) {
+    TL_AFNetworkReachabilityStatusUnknown          = -1,
+    TL_AFNetworkReachabilityStatusNotReachable     = 0,
+    TL_AFNetworkReachabilityStatusReachableViaWWAN = 1,
+    TL_AFNetworkReachabilityStatusReachableViaWiFi = 2,
 };
 
 /**
@@ -41,12 +41,12 @@ typedef NS_ENUM(NSInteger, LP_AFNetworkReachabilityStatus) {
  
  See Apple's Reachability Sample Code (https://developer.apple.com/library/ios/samplecode/reachability/)
  */
-@interface LP_AFNetworkReachabilityManager : NSObject
+@interface TL_AFNetworkReachabilityManager : NSObject
 
 /**
  The current network reachability status.
  */
-@property (readonly, nonatomic, assign) LP_AFNetworkReachabilityStatus networkReachabilityStatus;
+@property (readonly, nonatomic, assign) TL_AFNetworkReachabilityStatus networkReachabilityStatus;
 
 /**
  Whether or not the network is currently reachable.
@@ -131,7 +131,7 @@ typedef NS_ENUM(NSInteger, LP_AFNetworkReachabilityStatus) {
 
  @param block A block object to be executed when the network availability of the `baseURL` host changes.. This block has no return value and takes a single argument which represents the various reachability states from the device to the `baseURL`.
  */
-- (void)setReachabilityStatusChangeBlock:(void (^)(LP_AFNetworkReachabilityStatus status))block;
+- (void)setReachabilityStatusChangeBlock:(void (^)(TL_AFNetworkReachabilityStatus status))block;
 
 @end
 
@@ -145,22 +145,22 @@ typedef NS_ENUM(NSInteger, LP_AFNetworkReachabilityStatus) {
  The following constants are provided by `AFNetworkReachabilityManager` as possible network reachability statuses.
 
  enum {
- LP_AFNetworkReachabilityStatusUnknown,
- LP_AFNetworkReachabilityStatusNotReachable,
- LP_AFNetworkReachabilityStatusReachableViaWWAN,
- LP_AFNetworkReachabilityStatusReachableViaWiFi,
+ TL_AFNetworkReachabilityStatusUnknown,
+ TL_AFNetworkReachabilityStatusNotReachable,
+ TL_AFNetworkReachabilityStatusReachableViaWWAN,
+ TL_AFNetworkReachabilityStatusReachableViaWiFi,
  }
 
- `LP_AFNetworkReachabilityStatusUnknown`
+ `TL_AFNetworkReachabilityStatusUnknown`
  The `baseURL` host reachability is not known.
 
- `LP_AFNetworkReachabilityStatusNotReachable`
+ `TL_AFNetworkReachabilityStatusNotReachable`
  The `baseURL` host cannot be reached.
 
- `LP_AFNetworkReachabilityStatusReachableViaWWAN`
+ `TL_AFNetworkReachabilityStatusReachableViaWWAN`
  The `baseURL` host can be reached via a cellular connection, such as EDGE or GPRS.
 
- `LP_AFNetworkReachabilityStatusReachableViaWiFi`
+ `TL_AFNetworkReachabilityStatusReachableViaWiFi`
  The `baseURL` host can be reached via a Wi-Fi connection.
 
  ### Keys for Notification UserInfo Dictionary
@@ -182,8 +182,8 @@ typedef NS_ENUM(NSInteger, LP_AFNetworkReachabilityStatus) {
 
  @warning In order for network reachability to be monitored, include the `SystemConfiguration` framework in the active target's "Link Binary With Library" build phase, and add `#import <SystemConfiguration/SystemConfiguration.h>` to the header prefix of the project (`Prefix.pch`).
  */
-extern NSString * const LP_AFNetworkingReachabilityDidChangeNotification;
-extern NSString * const LP_AFNetworkingReachabilityNotificationStatusItem;
+extern NSString * const TL_AFNetworkingReachabilityDidChangeNotification;
+extern NSString * const TL_AFNetworkingReachabilityNotificationStatusItem;
 
 ///--------------------
 /// @name Functions
@@ -192,4 +192,4 @@ extern NSString * const LP_AFNetworkingReachabilityNotificationStatusItem;
 /**
  Returns a localized string representation of an `AFNetworkReachabilityStatus` value.
  */
-extern NSString * LP_AFStringFromNetworkReachabilityStatus(LP_AFNetworkReachabilityStatus status);
+extern NSString * TL_AFStringFromNetworkReachabilityStatus(TL_AFNetworkReachabilityStatus status);

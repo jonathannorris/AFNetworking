@@ -22,10 +22,10 @@
 
 #import <Foundation/Foundation.h>
 
-#import "LP_AFURLResponseSerialization.h"
-#import "LP_AFURLRequestSerialization.h"
-#import "LP_AFSecurityPolicy.h"
-#import "LP_AFNetworkReachabilityManager.h"
+#import "TL_AFURLResponseSerialization.h"
+#import "TL_AFURLRequestSerialization.h"
+#import "TL_AFSecurityPolicy.h"
+#import "TL_AFNetworkReachabilityManager.h"
 
 /**
  `AFURLSessionManager` creates and manages an `NSURLSession` object based on a specified `NSURLSessionConfiguration` object, which conforms to `<NSURLSessionTaskDelegate>`, `<NSURLSessionDataDelegate>`, `<NSURLSessionDownloadDelegate>`, and `<NSURLSessionDelegate>`.
@@ -82,7 +82,7 @@
 
 #if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000) || (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 1090)
 
-@interface LP_AFURLSessionManager : NSObject <NSURLSessionDelegate, NSURLSessionTaskDelegate, NSURLSessionDataDelegate, NSURLSessionDownloadDelegate, NSCoding, NSCopying>
+@interface TL_AFURLSessionManager : NSObject <NSURLSessionDelegate, NSURLSessionTaskDelegate, NSURLSessionDataDelegate, NSURLSessionDownloadDelegate, NSCoding, NSCopying>
 
 /**
  The managed session.
@@ -99,7 +99,7 @@
 
  @warning `responseSerializer` must not be `nil`.
  */
-@property (nonatomic, strong) id <LP_AFURLResponseSerialization> responseSerializer;
+@property (nonatomic, strong) id <TL_AFURLResponseSerialization> responseSerializer;
 
 ///-------------------------------
 /// @name Managing Security Policy
@@ -108,7 +108,7 @@
 /**
  The security policy used by created request operations to evaluate server trust for secure connections. `AFURLSessionManager` uses the `defaultPolicy` unless otherwise specified.
  */
-@property (nonatomic, strong) LP_AFSecurityPolicy *securityPolicy;
+@property (nonatomic, strong) TL_AFSecurityPolicy *securityPolicy;
 
 ///--------------------------------------
 /// @name Monitoring Network Reachability
@@ -117,7 +117,7 @@
 /**
  The network reachability manager. `AFURLSessionManager` uses the `sharedManager` by default.
  */
-@property (readonly, nonatomic, strong) LP_AFNetworkReachabilityManager *reachabilityManager;
+@property (readonly, nonatomic, strong) TL_AFNetworkReachabilityManager *reachabilityManager;
 
 ///----------------------------
 /// @name Getting Session Tasks
@@ -386,49 +386,49 @@
 /**
  Posted when a task begins executing.
  */
-extern NSString * const LP_AFNetworkingTaskDidStartNotification;
+extern NSString * const TL_AFNetworkingTaskDidStartNotification;
 
 /**
  Posted when a task finishes executing. Includes a userInfo dictionary with additional information about the task.
  */
-extern NSString * const LP_AFNetworkingTaskDidFinishNotification;
+extern NSString * const TL_AFNetworkingTaskDidFinishNotification;
 
 /**
  Posted when a task suspends its execution.
  */
-extern NSString * const LP_AFNetworkingTaskDidSuspendNotification;
+extern NSString * const TL_AFNetworkingTaskDidSuspendNotification;
 
 /**
  Posted when a session is invalidated.
  */
-extern NSString * const LP_AFURLSessionDidInvalidateNotification;
+extern NSString * const TL_AFURLSessionDidInvalidateNotification;
 
 /**
  Posted when a session download task encountered an error when moving the temporary download file to a specified destination.
  */
-extern NSString * const LP_AFURLSessionDownloadTaskDidFailToMoveFileNotification;
+extern NSString * const TL_AFURLSessionDownloadTaskDidFailToMoveFileNotification;
 
 /**
  The raw response data of the task. Included in the userInfo dictionary of the `AFNetworkingTaskDidFinishNotification` if response data exists for the task.
  */
-extern NSString * const LP_AFNetworkingTaskDidFinishResponseDataKey;
+extern NSString * const TL_AFNetworkingTaskDidFinishResponseDataKey;
 
 /**
  The serialized response object of the task. Included in the userInfo dictionary of the `AFNetworkingTaskDidFinishNotification` if the response was serialized.
  */
-extern NSString * const LP_AFNetworkingTaskDidFinishSerializedResponseKey;
+extern NSString * const TL_AFNetworkingTaskDidFinishSerializedResponseKey;
 
 /**
  The response serializer used to serialize the response. Included in the userInfo dictionary of the `AFNetworkingTaskDidFinishNotification` if the task has an associated response serializer.
  */
-extern NSString * const LP_AFNetworkingTaskDidFinishResponseSerializerKey;
+extern NSString * const TL_AFNetworkingTaskDidFinishResponseSerializerKey;
 
 /**
  The file path associated with the download task. Included in the userInfo dictionary of the `AFNetworkingTaskDidFinishNotification` if an the response data has been stored directly to disk.
  */
-extern NSString * const LP_AFNetworkingTaskDidFinishAssetPathKey;
+extern NSString * const TL_AFNetworkingTaskDidFinishAssetPathKey;
 
 /**
  Any error associated with the task, or the serialization of the response. Included in the userInfo dictionary of the `AFNetworkingTaskDidFinishNotification` if an error exists.
  */
-extern NSString * const LP_AFNetworkingTaskDidFinishErrorKey;
+extern NSString * const TL_AFNetworkingTaskDidFinishErrorKey;

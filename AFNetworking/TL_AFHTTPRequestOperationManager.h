@@ -30,11 +30,11 @@
 #import <CoreServices/CoreServices.h>
 #endif
 
-#import "LP_AFHTTPRequestOperation.h"
-#import "LP_AFURLResponseSerialization.h"
-#import "LP_AFURLRequestSerialization.h"
-#import "LP_AFSecurityPolicy.h"
-#import "LP_AFNetworkReachabilityManager.h"
+#import "TL_AFHTTPRequestOperation.h"
+#import "TL_AFURLResponseSerialization.h"
+#import "TL_AFURLRequestSerialization.h"
+#import "TL_AFSecurityPolicy.h"
+#import "TL_AFNetworkReachabilityManager.h"
 
 /**
  `AFHTTPRequestOperationManager` encapsulates the common patterns of communicating with a web application over HTTP, including request creation, response serialization, network reachability monitoring, and security, as well as request operation management.
@@ -82,7 +82,7 @@
  - Archives and copies of HTTP clients will be initialized with an empty operation queue.
  - NSCoding cannot serialize / deserialize block properties, so an archive of an HTTP client will not include any reachability callback block that may be set.
  */
-@interface LP_AFHTTPRequestOperationManager : NSObject <NSCoding, NSCopying>
+@interface TL_AFHTTPRequestOperationManager : NSObject <NSCoding, NSCopying>
 
 /**
  The URL used to monitor reachability, and construct requests from relative paths in methods like `requestWithMethod:URLString:parameters:`, and the `GET` / `POST` / et al. convenience methods.
@@ -94,14 +94,14 @@
  
  @warning `requestSerializer` must not be `nil`.
  */
-@property (nonatomic, strong) LP_AFHTTPRequestSerializer <LP_AFURLRequestSerialization> * requestSerializer;
+@property (nonatomic, strong) TL_AFHTTPRequestSerializer <TL_AFURLRequestSerialization> * requestSerializer;
 
 /**
  Responses sent from the server in data tasks created with `dataTaskWithRequest:success:failure:` and run using the `GET` / `POST` / et al. convenience methods are automatically validated and serialized by the response serializer. By default, this property is set to a JSON serializer, which serializes data from responses with a `application/json` MIME type, and falls back to the raw data object. The serializer validates the status code to be in the `2XX` range, denoting success. If the response serializer generates an error in `-responseObjectForResponse:data:error:`, the `failure` callback of the session task or request operation will be executed; otherwise, the `success` callback will be executed.
 
  @warning `responseSerializer` must not be `nil`.
  */
-@property (nonatomic, strong) LP_AFHTTPResponseSerializer <LP_AFURLResponseSerialization> * responseSerializer;
+@property (nonatomic, strong) TL_AFHTTPResponseSerializer <TL_AFURLResponseSerialization> * responseSerializer;
 
 /**
  The operation queue on which request operations are scheduled and run.
@@ -133,7 +133,7 @@
 /**
  The security policy used by created request operations to evaluate server trust for secure connections. `AFHTTPRequestOperationManager` uses the `defaultPolicy` unless otherwise specified.
  */
-@property (nonatomic, strong) LP_AFSecurityPolicy *securityPolicy;
+@property (nonatomic, strong) TL_AFSecurityPolicy *securityPolicy;
 
 ///------------------------------------
 /// @name Managing Network Reachability
@@ -142,7 +142,7 @@
 /**
  The network reachability manager. `AFHTTPRequestOperationManager` uses the `sharedManager` by default.
  */
-@property (readonly, nonatomic, strong) LP_AFNetworkReachabilityManager *reachabilityManager;
+@property (readonly, nonatomic, strong) TL_AFNetworkReachabilityManager *reachabilityManager;
 
 ///---------------------------------------------
 /// @name Creating and Initializing HTTP Clients
@@ -175,9 +175,9 @@
  @param success A block object to be executed when the request operation finishes successfully. This block has no return value and takes two arguments: the created request operation and the object created from the response data of request.
  @param failure A block object to be executed when the request operation finishes unsuccessfully, or that finishes successfully, but encountered an error while parsing the response data. This block has no return value and takes two arguments:, the created request operation and the `NSError` object describing the network or parsing error that occurred.
  */
-- (LP_AFHTTPRequestOperation *)HTTPRequestOperationWithRequest:(NSURLRequest *)request
-                                                    success:(void (^)(LP_AFHTTPRequestOperation *operation, id responseObject))success
-                                                    failure:(void (^)(LP_AFHTTPRequestOperation *operation, NSError *error))failure;
+- (TL_AFHTTPRequestOperation *)HTTPRequestOperationWithRequest:(NSURLRequest *)request
+                                                    success:(void (^)(TL_AFHTTPRequestOperation *operation, id responseObject))success
+                                                    failure:(void (^)(TL_AFHTTPRequestOperation *operation, NSError *error))failure;
 
 ///---------------------------
 /// @name Making HTTP Requests
@@ -193,10 +193,10 @@
 
  @see -HTTPRequestOperationWithRequest:success:failure:
  */
-- (LP_AFHTTPRequestOperation *)GET:(NSString *)URLString
+- (TL_AFHTTPRequestOperation *)GET:(NSString *)URLString
                      parameters:(NSDictionary *)parameters
-                        success:(void (^)(LP_AFHTTPRequestOperation *operation, id responseObject))success
-                        failure:(void (^)(LP_AFHTTPRequestOperation *operation, NSError *error))failure;
+                        success:(void (^)(TL_AFHTTPRequestOperation *operation, id responseObject))success
+                        failure:(void (^)(TL_AFHTTPRequestOperation *operation, NSError *error))failure;
 
 /**
  Creates and runs an `AFHTTPRequestOperation` with a `HEAD` request.
@@ -208,10 +208,10 @@
 
  @see -HTTPRequestOperationWithRequest:success:failure:
  */
-- (LP_AFHTTPRequestOperation *)HEAD:(NSString *)URLString
+- (TL_AFHTTPRequestOperation *)HEAD:(NSString *)URLString
                       parameters:(NSDictionary *)parameters
-                         success:(void (^)(LP_AFHTTPRequestOperation *operation))success
-                         failure:(void (^)(LP_AFHTTPRequestOperation *operation, NSError *error))failure;
+                         success:(void (^)(TL_AFHTTPRequestOperation *operation))success
+                         failure:(void (^)(TL_AFHTTPRequestOperation *operation, NSError *error))failure;
 
 /**
  Creates and runs an `AFHTTPRequestOperation` with a `POST` request.
@@ -223,10 +223,10 @@
 
  @see -HTTPRequestOperationWithRequest:success:failure:
  */
-- (LP_AFHTTPRequestOperation *)POST:(NSString *)URLString
+- (TL_AFHTTPRequestOperation *)POST:(NSString *)URLString
                       parameters:(NSDictionary *)parameters
-                         success:(void (^)(LP_AFHTTPRequestOperation *operation, id responseObject))success
-                         failure:(void (^)(LP_AFHTTPRequestOperation *operation, NSError *error))failure;
+                         success:(void (^)(TL_AFHTTPRequestOperation *operation, id responseObject))success
+                         failure:(void (^)(TL_AFHTTPRequestOperation *operation, NSError *error))failure;
 
 /**
  Creates and runs an `AFHTTPRequestOperation` with a multipart `POST` request.
@@ -239,11 +239,11 @@
 
  @see -HTTPRequestOperationWithRequest:success:failure:
  */
-- (LP_AFHTTPRequestOperation *)POST:(NSString *)URLString
+- (TL_AFHTTPRequestOperation *)POST:(NSString *)URLString
                       parameters:(NSDictionary *)parameters
-       constructingBodyWithBlock:(void (^)(id <LP_AFMultipartFormData> formData))block
-                         success:(void (^)(LP_AFHTTPRequestOperation *operation, id responseObject))success
-                         failure:(void (^)(LP_AFHTTPRequestOperation *operation, NSError *error))failure;
+       constructingBodyWithBlock:(void (^)(id <TL_AFMultipartFormData> formData))block
+                         success:(void (^)(TL_AFHTTPRequestOperation *operation, id responseObject))success
+                         failure:(void (^)(TL_AFHTTPRequestOperation *operation, NSError *error))failure;
 
 /**
  Creates and runs an `AFHTTPRequestOperation` with a `PUT` request.
@@ -255,10 +255,10 @@
 
  @see -HTTPRequestOperationWithRequest:success:failure:
  */
-- (LP_AFHTTPRequestOperation *)PUT:(NSString *)URLString
+- (TL_AFHTTPRequestOperation *)PUT:(NSString *)URLString
                      parameters:(NSDictionary *)parameters
-                        success:(void (^)(LP_AFHTTPRequestOperation *operation, id responseObject))success
-                        failure:(void (^)(LP_AFHTTPRequestOperation *operation, NSError *error))failure;
+                        success:(void (^)(TL_AFHTTPRequestOperation *operation, id responseObject))success
+                        failure:(void (^)(TL_AFHTTPRequestOperation *operation, NSError *error))failure;
 
 /**
  Creates and runs an `AFHTTPRequestOperation` with a `PATCH` request.
@@ -270,10 +270,10 @@
 
  @see -HTTPRequestOperationWithRequest:success:failure:
  */
-- (LP_AFHTTPRequestOperation *)PATCH:(NSString *)URLString
+- (TL_AFHTTPRequestOperation *)PATCH:(NSString *)URLString
                        parameters:(NSDictionary *)parameters
-                          success:(void (^)(LP_AFHTTPRequestOperation *operation, id responseObject))success
-                          failure:(void (^)(LP_AFHTTPRequestOperation *operation, NSError *error))failure;
+                          success:(void (^)(TL_AFHTTPRequestOperation *operation, id responseObject))success
+                          failure:(void (^)(TL_AFHTTPRequestOperation *operation, NSError *error))failure;
 
 /**
  Creates and runs an `AFHTTPRequestOperation` with a `DELETE` request.
@@ -285,10 +285,10 @@
 
  @see -HTTPRequestOperationWithRequest:success:failure:
  */
-- (LP_AFHTTPRequestOperation *)DELETE:(NSString *)URLString
+- (TL_AFHTTPRequestOperation *)DELETE:(NSString *)URLString
                         parameters:(NSDictionary *)parameters
-                           success:(void (^)(LP_AFHTTPRequestOperation *operation, id responseObject))success
-                           failure:(void (^)(LP_AFHTTPRequestOperation *operation, NSError *error))failure;
+                           success:(void (^)(TL_AFHTTPRequestOperation *operation, id responseObject))success
+                           failure:(void (^)(TL_AFHTTPRequestOperation *operation, NSError *error))failure;
 
 @end
 

@@ -21,13 +21,13 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-#import "LP_AFURLConnectionOperation.h"
-#import "LP_AFURLResponseSerialization.h"
+#import "TL_AFURLConnectionOperation.h"
+#import "TL_AFURLResponseSerialization.h"
 
 /**
  `AFHTTPRequestOperation` is a subclass of `AFURLConnectionOperation` for requests using the HTTP or HTTPS protocols. It encapsulates the concept of acceptable status codes and content types, which determine the success or failure of a request.
  */
-@interface LP_AFHTTPRequestOperation : LP_AFURLConnectionOperation
+@interface TL_AFHTTPRequestOperation : TL_AFURLConnectionOperation
 
 ///------------------------------------------------
 /// @name Getting HTTP URL Connection Information
@@ -43,7 +43,7 @@
 
  @warning `responseSerializer` must not be `nil`. Setting a response serializer will clear out any cached value 
  */
-@property (nonatomic, strong) LP_AFHTTPResponseSerializer <LP_AFURLResponseSerialization> * responseSerializer;
+@property (nonatomic, strong) TL_AFHTTPResponseSerializer <TL_AFURLResponseSerialization> * responseSerializer;
 
 /**
  An object constructed by the `responseSerializer` from the response and response data. Returns `nil` unless the operation `isFinished`, has a `response`, and has `responseData` with non-zero content length. If an error occurs during serialization, `nil` will be returned, and the `error` property will be populated with the serialization error.
@@ -62,7 +62,7 @@
  @param success The block to be executed on the completion of a successful request. This block has no return value and takes two arguments: the receiver operation and the object constructed from the response data of the request.
  @param failure The block to be executed on the completion of an unsuccessful request. This block has no return value and takes two arguments: the receiver operation and the error that occurred during the request.
  */
-- (void)setCompletionBlockWithSuccess:(void (^)(LP_AFHTTPRequestOperation *operation, id responseObject))success
-                              failure:(void (^)(LP_AFHTTPRequestOperation *operation, NSError *error))failure;
+- (void)setCompletionBlockWithSuccess:(void (^)(TL_AFHTTPRequestOperation *operation, id responseObject))success
+                              failure:(void (^)(TL_AFHTTPRequestOperation *operation, NSError *error))failure;
 
 @end

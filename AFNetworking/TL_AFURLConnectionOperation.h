@@ -23,7 +23,7 @@
 #import <Foundation/Foundation.h>
 
 #import <Availability.h>
-#import "LP_AFSecurityPolicy.h"
+#import "TL_AFSecurityPolicy.h"
 
 /**
  `AFURLConnectionOperation` is a subclass of `NSOperation` that implements `NSURLConnection` delegate methods.
@@ -80,7 +80,7 @@
  - Operation copies do not include `completionBlock`, as it often strongly captures a reference to `self`, which would otherwise have the unintuitive side-effect of pointing to the _original_ operation when copied.
  */
 
-@interface LP_AFURLConnectionOperation : NSOperation <NSURLConnectionDelegate, NSURLConnectionDataDelegate, NSCoding, NSCopying>
+@interface TL_AFURLConnectionOperation : NSOperation <NSURLConnectionDelegate, NSURLConnectionDataDelegate, NSCoding, NSCopying>
 
 ///-------------------------------
 /// @name Accessing Run Loop Modes
@@ -156,7 +156,7 @@
 /**
  The security policy used to evaluate server trust for secure connections.
  */
-@property (nonatomic, strong) LP_AFSecurityPolicy *securityPolicy;
+@property (nonatomic, strong) TL_AFSecurityPolicy *securityPolicy;
 
 ///------------------------
 /// @name Accessing Streams
@@ -317,18 +317,18 @@
  The following constants are provided by `AFURLConnectionOperation` as possible SSL Pinning options.
 
  enum {
- LP_AFSSLPinningModeNone,
- LP_AFSSLPinningModePublicKey,
- LP_AFSSLPinningModeCertificate,
+ TL_AFSSLPinningModeNone,
+ TL_AFSSLPinningModePublicKey,
+ TL_AFSSLPinningModeCertificate,
  }
  
- `LP_AFSSLPinningModeNone`
+ `TL_AFSSLPinningModeNone`
  Do not pin SSL connections
 
- `LP_AFSSLPinningModePublicKey`
+ `TL_AFSSLPinningModePublicKey`
  Pin SSL connections to certificate public key (SPKI).
 
- `LP_AFSSLPinningModeCertificate`
+ `TL_AFSSLPinningModeCertificate`
  Pin SSL connections to exact certificate. This may cause problems when your certificate expires and needs re-issuance.
 
  ## User info dictionary keys
@@ -357,9 +357,9 @@
  `AFNetworkingErrorDomain`
  AFNetworking errors. Error codes for `AFNetworkingErrorDomain` correspond to codes in `NSURLErrorDomain`.
  */
-extern NSString * const LP_AFNetworkingErrorDomain;
-extern NSString * const LP_AFNetworkingOperationFailingURLRequestErrorKey;
-extern NSString * const LP_AFNetworkingOperationFailingURLResponseErrorKey;
+extern NSString * const TL_AFNetworkingErrorDomain;
+extern NSString * const TL_AFNetworkingOperationFailingURLRequestErrorKey;
+extern NSString * const TL_AFNetworkingOperationFailingURLResponseErrorKey;
 
 ///--------------------
 /// @name Notifications
@@ -368,9 +368,9 @@ extern NSString * const LP_AFNetworkingOperationFailingURLResponseErrorKey;
 /**
  Posted when an operation begins executing.
  */
-extern NSString * const LP_AFNetworkingOperationDidStartNotification;
+extern NSString * const TL_AFNetworkingOperationDidStartNotification;
 
 /**
  Posted when an operation finishes.
  */
-extern NSString * const LP_AFNetworkingOperationDidFinishNotification;
+extern NSString * const TL_AFNetworkingOperationDidFinishNotification;

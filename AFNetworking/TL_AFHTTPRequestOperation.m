@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "LP_AFHTTPRequestOperation.h"
+#import "TL_AFHTTPRequestOperation.h"
 
 static dispatch_queue_t http_request_operation_processing_queue() {
     static dispatch_queue_t af_http_request_operation_processing_queue;
@@ -44,7 +44,7 @@ static dispatch_group_t http_request_operation_completion_group() {
 
 #pragma mark -
 
-@interface LP_AFHTTPRequestOperation ()
+@interface TL_AFHTTPRequestOperation ()
 @property (readwrite, nonatomic, strong) NSURLRequest *request;
 @property (readwrite, nonatomic, strong) NSHTTPURLResponse *response;
 @property (readwrite, nonatomic, strong) id responseObject;
@@ -52,7 +52,7 @@ static dispatch_group_t http_request_operation_completion_group() {
 @property (readwrite, nonatomic, strong) NSRecursiveLock *lock;
 @end
 
-@implementation LP_AFHTTPRequestOperation
+@implementation TL_AFHTTPRequestOperation
 @dynamic lock;
 
 - (instancetype)initWithRequest:(NSURLRequest *)urlRequest {
@@ -61,12 +61,12 @@ static dispatch_group_t http_request_operation_completion_group() {
         return nil;
     }
 
-    self.responseSerializer = [LP_AFHTTPResponseSerializer serializer];
+    self.responseSerializer = [TL_AFHTTPResponseSerializer serializer];
 
     return self;
 }
 
-- (void)setResponseSerializer:(LP_AFHTTPResponseSerializer <LP_AFURLResponseSerialization> *)responseSerializer {
+- (void)setResponseSerializer:(TL_AFHTTPResponseSerializer <TL_AFURLResponseSerialization> *)responseSerializer {
     NSParameterAssert(responseSerializer);
 
     [self.lock lock];
@@ -100,8 +100,8 @@ static dispatch_group_t http_request_operation_completion_group() {
 
 #pragma mark - AFHTTPRequestOperation
 
-- (void)setCompletionBlockWithSuccess:(void (^)(LP_AFHTTPRequestOperation *operation, id responseObject))success
-                              failure:(void (^)(LP_AFHTTPRequestOperation *operation, NSError *error))failure
+- (void)setCompletionBlockWithSuccess:(void (^)(TL_AFHTTPRequestOperation *operation, id responseObject))success
+                              failure:(void (^)(TL_AFHTTPRequestOperation *operation, NSError *error))failure
 {
     // completionBlock is manually nilled out in AFURLConnectionOperation to break the retain cycle.
 #pragma clang diagnostic push
@@ -186,7 +186,7 @@ static dispatch_group_t http_request_operation_completion_group() {
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone {
-    LP_AFHTTPRequestOperation *operation = [[[self class] allocWithZone:zone] initWithRequest:self.request];
+    TL_AFHTTPRequestOperation *operation = [[[self class] allocWithZone:zone] initWithRequest:self.request];
 
     operation.responseSerializer = [self.responseSerializer copyWithZone:zone];
     operation.completionQueue = self.completionQueue;

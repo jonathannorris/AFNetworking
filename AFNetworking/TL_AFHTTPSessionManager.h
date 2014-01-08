@@ -30,7 +30,7 @@
 #import <CoreServices/CoreServices.h>
 #endif
 
-#import "LP_AFURLSessionManager.h"
+#import "TL_AFURLSessionManager.h"
 
 /**
  `AFHTTPSessionManager` is a subclass of `AFURLSessionManager` with convenience methods for making HTTP requests. When a `baseURL` is provided, requests made with the `GET` / `POST` / et al. convenience methods can be made with relative paths; network reachability is also scoped to the host of the base URL as well.
@@ -70,7 +70,7 @@
 
 #if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000) || (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 1090)
 
-@interface LP_AFHTTPSessionManager : LP_AFURLSessionManager <NSCoding, NSCopying>
+@interface TL_AFHTTPSessionManager : TL_AFURLSessionManager <NSCoding, NSCopying>
 
 /**
  The URL used to monitor reachability, and construct requests from relative paths in methods like `requestWithMethod:URLString:parameters:`, and the `GET` / `POST` / et al. convenience methods.
@@ -82,14 +82,14 @@
  
  @warning `requestSerializer` must not be `nil`.
  */
-@property (nonatomic, strong) LP_AFHTTPRequestSerializer <LP_AFURLRequestSerialization> * requestSerializer;
+@property (nonatomic, strong) TL_AFHTTPRequestSerializer <TL_AFURLRequestSerialization> * requestSerializer;
 
 /**
  Responses sent from the server in data tasks created with `dataTaskWithRequest:success:failure:` and run using the `GET` / `POST` / et al. convenience methods are automatically validated and serialized by the response serializer. By default, this property is set to an instance of `AFJSONResponseSerializer`.
 
  @warning `responseSerializer` must not be `nil`.
  */
-@property (nonatomic, strong) LP_AFHTTPResponseSerializer <LP_AFURLResponseSerialization> * responseSerializer;
+@property (nonatomic, strong) TL_AFHTTPResponseSerializer <TL_AFURLResponseSerialization> * responseSerializer;
 
 ///---------------------
 /// @name Initialization
@@ -184,7 +184,7 @@
  */
 - (NSURLSessionDataTask *)POST:(NSString *)URLString
                     parameters:(NSDictionary *)parameters
-     constructingBodyWithBlock:(void (^)(id <LP_AFMultipartFormData> formData))block
+     constructingBodyWithBlock:(void (^)(id <TL_AFMultipartFormData> formData))block
                        success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
                        failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure;
 

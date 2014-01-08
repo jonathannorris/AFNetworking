@@ -28,7 +28,7 @@
 
  For example, a JSON response serializer may check for an acceptable status code (`2XX` range) and content type (`application/json`), decoding a valid JSON response into an object.
  */
-@protocol LP_AFURLResponseSerialization <NSObject, NSCoding, NSCopying>
+@protocol TL_AFURLResponseSerialization <NSObject, NSCoding, NSCopying>
 
 /**
  The response object decoded from the data associated with a specified response.
@@ -52,7 +52,7 @@
 
  Any request or response serializer dealing with HTTP is encouraged to subclass `AFHTTPResponseSerializer` in order to ensure consistent default behavior.
  */
-@interface LP_AFHTTPResponseSerializer : NSObject <LP_AFURLResponseSerialization>
+@interface TL_AFHTTPResponseSerializer : NSObject <TL_AFURLResponseSerialization>
 
 /**
  The string encoding used to serialize parameters.
@@ -109,7 +109,7 @@
  - `text/json`
  - `text/javascript`
  */
-@interface LP_AFJSONResponseSerializer : LP_AFHTTPResponseSerializer
+@interface TL_AFJSONResponseSerializer : TL_AFHTTPResponseSerializer
 
 /**
  Options for reading the response JSON data and creating the Foundation objects. For possible values, see the `NSJSONSerialization` documentation section "NSJSONReadingOptions". `0` by default.
@@ -135,7 +135,7 @@
  - `application/xml`
  - `text/xml`
  */
-@interface LP_AFXMLParserResponseSerializer : LP_AFHTTPResponseSerializer
+@interface TL_AFXMLParserResponseSerializer : TL_AFHTTPResponseSerializer
 
 @end
 
@@ -151,7 +151,7 @@
  - `application/xml`
  - `text/xml`
  */
-@interface LP_AFXMLDocumentResponseSerializer : LP_AFHTTPResponseSerializer
+@interface TL_AFXMLDocumentResponseSerializer : TL_AFHTTPResponseSerializer
 
 /**
  Input and output options specifically intended for `NSXMLDocument` objects. For possible values, see the `NSJSONSerialization` documentation section "NSJSONReadingOptions". `0` by default.
@@ -178,7 +178,7 @@
 
  - `application/x-plist`
  */
-@interface LP_AFPropertyListResponseSerializer : LP_AFHTTPResponseSerializer
+@interface TL_AFPropertyListResponseSerializer : TL_AFHTTPResponseSerializer
 
 /**
  The property list format. Possible values are described in "NSPropertyListFormat".
@@ -219,7 +219,7 @@
  - `image/x-xbitmap`
  - `image/x-win-bitmap`
  */
-@interface LP_AFImageResponseSerializer : LP_AFHTTPResponseSerializer
+@interface TL_AFImageResponseSerializer : TL_AFHTTPResponseSerializer
 
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
 /**
@@ -240,7 +240,7 @@
 /**
  `AFCompoundSerializer` is a subclass of `AFHTTPResponseSerializer` that delegates the response serialization to the first `AFHTTPResponseSerializer` object that returns `YES` to `validateResponse:data:error:`, falling back on the default behavior of `AFHTTPResponseSerializer`. This is useful for supporting multiple potential types and structures of server responses with a single serializer.
  */
-@interface LP_AFCompoundResponseSerializer : LP_AFHTTPResponseSerializer
+@interface TL_AFCompoundResponseSerializer : TL_AFHTTPResponseSerializer
 
 /**
  The component response serializers.

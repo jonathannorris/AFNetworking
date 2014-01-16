@@ -439,13 +439,13 @@ extern NSString * const TL_AFNetworkingOperationFailingURLResponseErrorKey;
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
 #import <CoreGraphics/CoreGraphics.h>
 
-static UIImage * AFImageWithDataAtScale(NSData *data, CGFloat scale) {
+static UIImage * TL_AFImageWithDataAtScale(NSData *data, CGFloat scale) {
     UIImage *image = [[UIImage alloc] initWithData:data];
 
     return [[UIImage alloc] initWithCGImage:[image CGImage] scale:scale orientation:image.imageOrientation];
 }
 
-static UIImage * AFInflatedImageFromResponseWithDataAtScale(NSHTTPURLResponse *response, NSData *data, CGFloat scale) {
+static UIImage * TL_AFInflatedImageFromResponseWithDataAtScale(NSHTTPURLResponse *response, NSData *data, CGFloat scale) {
     if (!data || [data length] == 0) {
         return nil;
     }
@@ -459,7 +459,7 @@ static UIImage * AFInflatedImageFromResponseWithDataAtScale(NSHTTPURLResponse *r
         imageRef = CGImageCreateWithJPEGDataProvider(dataProvider, NULL, true, kCGRenderingIntentDefault);
     }
 
-    UIImage *image = AFImageWithDataAtScale(data, scale);
+    UIImage *image = TL_AFImageWithDataAtScale(data, scale);
     if (!imageRef) {
         if (image.images) {
             CGDataProviderRelease(dataProvider);
@@ -482,7 +482,7 @@ static UIImage * AFInflatedImageFromResponseWithDataAtScale(NSHTTPURLResponse *r
     if (width * height > 1024 * 1024) {
         CGImageRelease(imageRef);
 
-        return AFImageWithDataAtScale(data, scale);
+        return TL_AFImageWithDataAtScale(data, scale);
     }
 
     size_t bitsPerComponent = CGImageGetBitsPerComponent(imageRef);
@@ -508,7 +508,7 @@ static UIImage * AFInflatedImageFromResponseWithDataAtScale(NSHTTPURLResponse *r
     if (!context) {
         CGImageRelease(imageRef);
 
-        return AFImageWithDataAtScale(data, scale);
+        return TL_AFImageWithDataAtScale(data, scale);
     }
 
     CGRect rect = CGRectMake(0.0f, 0.0f, width, height);
@@ -567,9 +567,9 @@ static UIImage * AFInflatedImageFromResponseWithDataAtScale(NSHTTPURLResponse *r
 
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
     if (self.automaticallyInflatesResponseImage) {
-        return AFInflatedImageFromResponseWithDataAtScale((NSHTTPURLResponse *)response, data, self.imageScale);
+        return TL_AFInflatedImageFromResponseWithDataAtScale((NSHTTPURLResponse *)response, data, self.imageScale);
     } else {
-        return AFImageWithDataAtScale(data, self.imageScale);
+        return TL_AFImageWithDataAtScale(data, self.imageScale);
     }
 #elif defined(__MAC_OS_X_VERSION_MIN_REQUIRED)
     // Ensure that the image is set to it's correct pixel width and height

@@ -23,7 +23,7 @@
 #import "TL_AFSecurityPolicy.h"
 
 #if !defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
-static NSData * AFSecKeyGetData(SecKeyRef key) {
+static NSData * TL_AFSecKeyGetData(SecKeyRef key) {
     CFDataRef data = NULL;
 
 #if defined(NS_BLOCK_ASSERTIONS)
@@ -39,15 +39,15 @@ static NSData * AFSecKeyGetData(SecKeyRef key) {
 }
 #endif
 
-static BOOL AFSecKeyIsEqualToKey(SecKeyRef key1, SecKeyRef key2) {
+static BOOL TL_AFSecKeyIsEqualToKey(SecKeyRef key1, SecKeyRef key2) {
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
     return [(__bridge id)key1 isEqual:(__bridge id)key2];
 #else
-    return [AFSecKeyGetData(key1) isEqual:AFSecKeyGetData(key2)];
+    return [TL_AFSecKeyGetData(key1) isEqual:TL_AFSecKeyGetData(key2)];
 #endif
 }
 
-static id AFPublicKeyForCertificate(NSData *certificate) {
+static id TL_AFPublicKeyForCertificate(NSData *certificate) {
     SecCertificateRef allowedCertificate = SecCertificateCreateWithData(NULL, (__bridge CFDataRef)certificate);
     NSCParameterAssert(allowedCertificate);
 
@@ -83,7 +83,7 @@ static id AFPublicKeyForCertificate(NSData *certificate) {
     return (__bridge_transfer id)allowedPublicKey;
 }
 
-static BOOL AFServerTrustIsValid(SecTrustRef serverTrust) {
+static BOOL TL_AFServerTrustIsValid(SecTrustRef serverTrust) {
     SecTrustResultType result = 0;
 
 #if defined(NS_BLOCK_ASSERTIONS)
@@ -96,7 +96,7 @@ static BOOL AFServerTrustIsValid(SecTrustRef serverTrust) {
     return (result == kSecTrustResultUnspecified || result == kSecTrustResultProceed);
 }
 
-static NSArray * AFCertificateTrustChainForServerTrust(SecTrustRef serverTrust) {
+static NSArray * TL_AFCertificateTrustChainForServerTrust(SecTrustRef serverTrust) {
     CFIndex certificateCount = SecTrustGetCertificateCount(serverTrust);
     NSMutableArray *trustChain = [NSMutableArray arrayWithCapacity:(NSUInteger)certificateCount];
 
@@ -108,7 +108,7 @@ static NSArray * AFCertificateTrustChainForServerTrust(SecTrustRef serverTrust) 
     return [NSArray arrayWithArray:trustChain];
 }
 
-static NSArray * AFPublicKeyTrustChainForServerTrust(SecTrustRef serverTrust) {
+static NSArray * TL_AFPublicKeyTrustChainForServerTrust(SecTrustRef serverTrust) {
     SecPolicyRef policy = SecPolicyCreateBasicX509();
     CFIndex certificateCount = SecTrustGetCertificateCount(serverTrust);
     NSMutableArray *trustChain = [NSMutableArray arrayWithCapacity:(NSUInteger)certificateCount];
@@ -187,7 +187,7 @@ static NSArray * AFPublicKeyTrustChainForServerTrust(SecTrustRef serverTrust) {
     if (self.pinnedCertificates) {
         NSMutableArray *mutablePinnedPublicKeys = [NSMutableArray arrayWithCapacity:[self.pinnedCertificates count]];
         for (NSData *certificate in self.pinnedCertificates) {
-            [mutablePinnedPublicKeys addObject:AFPublicKeyForCertificate(certificate)];
+            [mutablePinnedPublicKeys addObject:TL_AFPublicKeyForCertificate(certificate)];
         }
         self.pinnedPublicKeys = [NSArray arrayWithArray:mutablePinnedPublicKeys];
     } else {
@@ -200,9 +200,9 @@ static NSArray * AFPublicKeyTrustChainForServerTrust(SecTrustRef serverTrust) {
 - (BOOL)evaluateServerTrust:(SecTrustRef)serverTrust {
     switch (self.SSLPinningMode) {
         case TL_AFSSLPinningModeNone:
-            return (self.allowInvalidCertificates || AFServerTrustIsValid(serverTrust));
+            return (self.allowInvalidCertificates || TL_AFServerTrustIsValid(serverTrust));
         case TL_AFSSLPinningModeCertificate: {
-            for (NSData *trustChainCertificate in AFCertificateTrustChainForServerTrust(serverTrust)) {
+            for (NSData *trustChainCertificate in TL_AFCertificateTrustChainForServerTrust(serverTrust)) {
                 if ([self.pinnedCertificates containsObject:trustChainCertificate]) {
                     return YES;
                 }
@@ -210,9 +210,9 @@ static NSArray * AFPublicKeyTrustChainForServerTrust(SecTrustRef serverTrust) {
         }
             break;
         case TL_AFSSLPinningModePublicKey: {
-            for (id trustChainPublicKey in AFPublicKeyTrustChainForServerTrust(serverTrust)) {
+            for (id trustChainPublicKey in TL_AFPublicKeyTrustChainForServerTrust(serverTrust)) {
                 for (id pinnedPublicKey in self.pinnedPublicKeys) {
-                    if (AFSecKeyIsEqualToKey((__bridge SecKeyRef)trustChainPublicKey, (__bridge SecKeyRef)pinnedPublicKey)) {
+                    if (TL_AFSecKeyIsEqualToKey((__bridge SecKeyRef)trustChainPublicKey, (__bridge SecKeyRef)pinnedPublicKey)) {
                         return YES;
                     }
                 }

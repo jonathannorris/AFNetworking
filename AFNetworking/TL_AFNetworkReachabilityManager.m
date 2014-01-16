@@ -41,7 +41,7 @@ NSString * TL_AFStringFromNetworkReachabilityStatus(TL_AFNetworkReachabilityStat
     }
 }
 
-static TL_AFNetworkReachabilityStatus AFNetworkReachabilityStatusForFlags(SCNetworkReachabilityFlags flags) {
+static TL_AFNetworkReachabilityStatus TL_AFNetworkReachabilityStatusForFlags(SCNetworkReachabilityFlags flags) {
     BOOL isReachable = ((flags & kSCNetworkReachabilityFlagsReachable) != 0);
     BOOL needsConnection = ((flags & kSCNetworkReachabilityFlagsConnectionRequired) != 0);
     BOOL canConnectionAutomatically = (((flags & kSCNetworkReachabilityFlagsConnectionOnDemand ) != 0) || ((flags & kSCNetworkReachabilityFlagsConnectionOnTraffic) != 0));
@@ -64,8 +64,8 @@ static TL_AFNetworkReachabilityStatus AFNetworkReachabilityStatusForFlags(SCNetw
     return status;
 }
 
-static void AFNetworkReachabilityCallback(SCNetworkReachabilityRef __unused target, SCNetworkReachabilityFlags flags, void *info) {
-    TL_AFNetworkReachabilityStatus status = AFNetworkReachabilityStatusForFlags(flags);
+static void TL_AFNetworkReachabilityCallback(SCNetworkReachabilityRef __unused target, SCNetworkReachabilityFlags flags, void *info) {
+    TL_AFNetworkReachabilityStatus status = TL_AFNetworkReachabilityStatusForFlags(flags);
     TL_AFNetworkReachabilityStatusBlock block = (__bridge TL_AFNetworkReachabilityStatusBlock)info;
     if (block) {
         block(status);
@@ -78,11 +78,11 @@ static void AFNetworkReachabilityCallback(SCNetworkReachabilityRef __unused targ
     });
 }
 
-static const void * AFNetworkReachabilityRetainCallback(const void *info) {
+static const void * TL_AFNetworkReachabilityRetainCallback(const void *info) {
     return Block_copy(info);
 }
 
-static void AFNetworkReachabilityReleaseCallback(const void *info) {
+static void TL_AFNetworkReachabilityReleaseCallback(const void *info) {
     if (info) {
         Block_release(info);
     }
@@ -176,13 +176,13 @@ static void AFNetworkReachabilityReleaseCallback(const void *info) {
         }
     };
 
-    SCNetworkReachabilityContext context = {0, (__bridge void *)callback, AFNetworkReachabilityRetainCallback, AFNetworkReachabilityReleaseCallback, NULL};
-    SCNetworkReachabilitySetCallback(self.networkReachability, AFNetworkReachabilityCallback, &context);
+    SCNetworkReachabilityContext context = {0, (__bridge void *)callback, TL_AFNetworkReachabilityRetainCallback, TL_AFNetworkReachabilityReleaseCallback, NULL};
+    SCNetworkReachabilitySetCallback(self.networkReachability, TL_AFNetworkReachabilityCallback, &context);
 
     SCNetworkReachabilityFlags flags;
     SCNetworkReachabilityGetFlags(self.networkReachability, &flags);
     dispatch_async(dispatch_get_main_queue(), ^{
-        TL_AFNetworkReachabilityStatus status = AFNetworkReachabilityStatusForFlags(flags);
+        TL_AFNetworkReachabilityStatus status = TL_AFNetworkReachabilityStatusForFlags(flags);
         callback(status);
     });
 
